@@ -8,7 +8,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body;
 
-    const user = await authService.register(userData);
+    const user = await authService.register();
 
     return res.status(httpStatus.CREATED).json({
       code: httpStatus.CREATED,
@@ -26,7 +26,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body;
 
-    const user = await authService.register(userData);
+    const user = await authService.register();
 
     return res.status(httpStatus.CREATED).json({
       code: httpStatus.CREATED,

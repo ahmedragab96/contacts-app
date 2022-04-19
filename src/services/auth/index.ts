@@ -1,4 +1,4 @@
-import { User } from '../../models/userModel';
+// import { User } from '../../models/userModel';
 import jwt from 'jsonwebtoken';
 import { config } from '../../config';
 
@@ -12,7 +12,7 @@ export class AuthService {
     return AuthService.instance;
   }
 
-  public async register(userData: User): Promise<void> {
+  public async register(): Promise<void> {
     // if (!user) {
     //   const token = this._generateAuthToken(userData.username);
     //   userData.accessToken = token;
@@ -26,7 +26,7 @@ export class AuthService {
     // return user;
   }
 
-  public async login(userData: User): Promise<void> {
+  public async login(): Promise<void> {
     // if (!user) {
     //   const token = this._generateAuthToken(userData.username);
     //   userData.accessToken = token;
