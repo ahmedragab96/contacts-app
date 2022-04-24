@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { config } from '../../config/env';
 import { User } from '../../models'; 
 import { AuthUser } from './types';
+import { auth } from '../../config/firebase';
 
 export class AuthService {
   private static instance: AuthService;
@@ -23,8 +24,9 @@ export class AuthService {
       email,
       password,
     });
-    const accessToken = this._generateAuthToken(user._id);
 
+    const firebaseCustomToken = await auth.createCustomToken(user._id);
+    const accessToken = this._generateAuthToken(user._id, firebaseCustomToken);
     return {
       email: user.email,
       id: user._id,
@@ -41,7 +43,9 @@ export class AuthService {
       throw new Error("Wrong Email/Password");
     }
 
-    const accessToken = this._generateAuthToken(user._id);
+    const firebaseCustomToken = await auth.createCustomToken(user._id.toString());
+    const accessToken = this._generateAuthToken(user._id, firebaseCustomToken);
+
     return {
       email: user.email,
       id: user._id,
@@ -51,11 +55,12 @@ export class AuthService {
     };
   }
 
-  _generateAuthToken(userId: string) {
+  _generateAuthToken(userId: string, firebaseToken: string) {
     const { jwtSecret } = config;
     const token = jwt.sign(
       {
         id: userId,
+        firebaseToken,
       },
       jwtSecret,
     );
