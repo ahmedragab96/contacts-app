@@ -11,6 +11,16 @@ admin.initializeApp({
 });
 
 const db = admin.database();
+db.setRules({
+	"rules": {
+    "contacts": {
+      "$uid": {
+        ".read": "$uid === auth.token.userId",
+        ".write": "$uid === auth.token.userId"
+      }
+    }
+  }
+})
 const auth = admin.auth();
 
 export { db, auth };

@@ -25,7 +25,11 @@ export class AuthService {
       password,
     });
 
-    const firebaseCustomToken = await auth.createCustomToken(user._id);
+    const customClaims = {
+      userId: user._id,
+    };
+
+    const firebaseCustomToken = await auth.createCustomToken(user._id.toString(), customClaims);
     const accessToken = this._generateAuthToken(user._id, firebaseCustomToken);
     return {
       email: user.email,
@@ -43,7 +47,11 @@ export class AuthService {
       throw new Error("Wrong Email/Password");
     }
 
-    const firebaseCustomToken = await auth.createCustomToken(user._id.toString());
+    const customClaims = {
+      userId: user._id,
+    };
+
+    const firebaseCustomToken = await auth.createCustomToken(user._id.toString(), customClaims);
     const accessToken = this._generateAuthToken(user._id, firebaseCustomToken);
 
     return {

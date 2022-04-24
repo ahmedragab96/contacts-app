@@ -7,6 +7,7 @@ import { expressLogger } from "../middlewares/logs";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../../swagger.json";
 import debug from "debug";
+import { errors } from "celebrate";
 
 class ExpressServer {
   constructor() {
@@ -26,6 +27,8 @@ class ExpressServer {
     app.use("/v1", api);
 
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+    app.use(errors());
 
     //The 404 Route
     app.get("*", function (req, res) {

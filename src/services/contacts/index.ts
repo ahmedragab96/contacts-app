@@ -1,10 +1,5 @@
-// await db.ref('contacts').child('egertwrg').child('ahmed-01111111').set({ firstName: 'Ahmed'});
-// import { User } from '../../models/userModel';
-import jwt from 'jsonwebtoken';
-import { config } from '../../config/env';
-import { User } from '../../models'; 
-import { AuthUser } from './types';
-import db from '../../config/firebase';
+import { db } from "../../config/firebase";
+import { IContact } from "../../models/contact";
 
 export class ContactsService {
   private static instance: ContactsService;
@@ -16,10 +11,16 @@ export class ContactsService {
     return ContactsService.instance;
   }
 
-  public async addContact(): Promise<AuthUser> {
-    
-    return {
-      
-    };
+  public async addContact(
+    userId: string,
+    contactData: IContact
+  ): Promise<void> {
+    await db
+      .ref("contacts")
+      .child(userId)
+      .child(
+        `${contactData.firstName}-${contactData.lastName}-${contactData.phoneNumber}`
+      )
+      .set(contactData);
   }
 }
