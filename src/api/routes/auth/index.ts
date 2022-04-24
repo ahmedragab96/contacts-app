@@ -1,4 +1,5 @@
 import express, { Router as ExpressRouter } from "express";
+import { authMiddleware } from "../../../middlewares/auth";
 
 import * as authController from '../../controllers/auth';
 
@@ -8,8 +9,8 @@ Router.route("/register").post(
   authController.register
 );
 
-Router.route("/register").post(
-    authController.login
+Router.route("/login").post(
+  authController.login
 );
 
 export { Router };

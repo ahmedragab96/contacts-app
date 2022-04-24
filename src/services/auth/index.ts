@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../../config/env';
 import { User } from '../../models'; 
-import { IUser } from '../../models/user/types';
+import { AuthUser } from './types';
 
 export class AuthService {
   private static instance: AuthService;
@@ -14,7 +14,7 @@ export class AuthService {
     return AuthService.instance;
   }
 
-  public async register(email: string, password: string): Promise<IUser> {
+  public async register(email: string, password: string): Promise<AuthUser> {
     let user = await User.findByEmail(email, {});
     if (user) {
       throw new Error('User already exists');
@@ -23,22 +23,32 @@ export class AuthService {
       email,
       password,
     });
-    user.save();
-    return user;
+    const accessToken = this._generateAuthToken(user._id);
+
+    return {
+      email: user.email,
+      id: user._id,
+      tokens: {
+        accessToken,
+      }
+    };
   }
 
-  public async login(): Promise<void> {
-    // if (!user) {
-    //   const token = this._generateAuthToken(userData.username);
-    //   userData.accessToken = token;
+  public async login(email: string, password: string): Promise<AuthUser> {
+    const user = await User.findByEmail(email, {});
 
-    //   user = userData;
-    // } else {
-    //   if (userData.password !== user.password) {
-    //     throw 'Wrong Password';
-    //   }
-    // }
-    // return user;
+    if (!user || !user.comparePassword(password)) {
+      throw new Error("Wrong Email/Password");
+    }
+
+    const accessToken = this._generateAuthToken(user._id);
+    return {
+      email: user.email,
+      id: user._id,
+      tokens: {
+        accessToken,
+      }
+    };
   }
 
   _generateAuthToken(userId: string) {

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { config } from "../../config/env";
+import { User } from "../../models";
 
 export const authMiddleware = async (
   req: Request,
@@ -20,8 +21,7 @@ export const authMiddleware = async (
       throw "Unauthorized Access";
     }
     const decoded: any = jwt.verify(accessToken, config.jwtSecret);
-    // const user = await getHashCache(decoded.id);
-    const user = {};
+    const user = await User.findById(decoded.id);
 
     // access denied if user doesn't exist
     if (!user) {
