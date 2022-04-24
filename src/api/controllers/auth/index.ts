@@ -8,7 +8,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body;
 
-    const user = await authService.register();
+    const user = await authService.register(userData.email, userData.password);
 
     return res.status(httpStatus.CREATED).json({
       code: httpStatus.CREATED,
@@ -24,15 +24,15 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userData = req.body;
+    // const userData = req.body;
 
-    const user = await authService.register();
+    // const user = await authService.register();
 
     return res.status(httpStatus.CREATED).json({
       code: httpStatus.CREATED,
       message: "Successfully registered user.",
       data: {
-        user,
+        // user,
       },
     });
   } catch (error) {
