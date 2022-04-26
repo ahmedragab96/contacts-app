@@ -1,1 +1,5 @@
 node_modules
+dist
+/logs
+.env
+strv-addressbook-ragab-ahmed.json

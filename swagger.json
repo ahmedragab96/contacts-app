@@ -1,0 +1,218 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a Swagger Documentation for the contacts API",
+    "version": "1.0.0",
+    "title": "Contacts API",
+    "contact": {
+      "email": "ahmed.r.shaban96@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "host": "localhost:5000",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Operations for authentication"
+    },
+    {
+      "name": "contacts",
+      "description": "operations related to adding or retriving contacts"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "register new user to the system",
+        "description": "register new user to the system",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "description": "user email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "description": "user password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful registeration",
+            "schema": {
+              "$ref": "#/definitions/authResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/defaultResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login user and return an access token for user",
+        "description": "Login user and return an access token for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "description": "user email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "description": "user password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful login",
+            "schema": {
+              "type": "object",
+              "schema": {
+                "$ref": "#/definitions/defaultResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/defaultResponse"
+            }
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "post": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Add new contact to user",
+        "description": "Add new contact to user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "firstName",
+            "description": "contact first name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "lastName",
+            "description": "contact last name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "phoneNumber",
+            "description": "contact phone number",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "address",
+            "description": "contact address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful adding contact",
+            "schema": {
+              "$ref": "#/definitions/defaultResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "schema": {
+              "$ref": "#/definitions/defaultResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "authResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "tokens": {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "defaultResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
