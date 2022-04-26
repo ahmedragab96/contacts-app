@@ -19,7 +19,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
   });
   }
 };
@@ -39,7 +39,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: error,
+      message: error.message,
   });
   }
 };
