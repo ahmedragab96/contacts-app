@@ -27,8 +27,6 @@ export const authMiddleware = async (
     if (!user) {
       throw "Unauthorized Access";
     }
-
-    console.log(user);
     req.user = user;
     next();
   } catch (error) {
